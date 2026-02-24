@@ -37,22 +37,96 @@ activities = {
         "description": "Physical education and sports activities",
         "schedule": "Mondays, Wednesdays, Fridays, 2:00 PM - 3:00 PM",
         "max_participants": 30,
-        "participants": ["john@mergington.edu", "olivia@mergington.edu"]
+        "participants": [
+            "john@mergington.edu",
+            "olivia@mergington.edu"
+        ]
+    },
+    "Volleyball": {
+        "description": "Team sport played by two teams of six players",
+        "schedule": "Tuesdays, 4:00 PM - 5:30 PM",
+        "max_participants": 12,
+        "participants": []
+    },
+    "Swimming": {
+        "description": "Learn swimming techniques and compete",
+        "schedule": "Wednesdays, 3:00 PM - 4:30 PM",
+        "max_participants": 15,
+        "participants": []
+    },
+    "Drama Club": {
+        "description": "Explore acting and theater production",
+        "schedule": "Thursdays, 3:30 PM - 5:00 PM",
+        "max_participants": 20,
+        "participants": []
+    },
+    "Photography": {
+        "description": "Learn photography skills and techniques",
+        "schedule": "Fridays, 4:00 PM - 5:30 PM",
+        "max_participants": 10,
+        "participants": []
+    },
+    "Debate Team": {
+        "description": "Develop public speaking and argumentation skills",
+        "schedule": "Mondays, 3:30 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": []
+    },
+    "Science Club": {
+        "description": "Explore scientific concepts and experiments",
+        "schedule": "Tuesdays, 4:30 PM - 6:00 PM",
+        "max_participants": 20,
+        "participants": []
+    },
+    "Volleyball": {
+        "description": "Team sport played by two teams of six players",
+        "schedule": "Tuesdays, 4:00 PM - 5:30 PM",
+        "max_participants": 12,
+        "participants": []
+    },
+    "Swimming": {
+        "description": "Learn swimming techniques and compete",
+        "schedule": "Wednesdays, 3:00 PM - 4:30 PM",
+        "max_participants": 15,
+        "participants": []
+    },
+    "Drama Club": {
+        "description": "Explore acting and theater production",
+        "schedule": "Thursdays, 3:30 PM - 5:00 PM",
+        "max_participants": 20,
+        "participants": []
+    },
+    "Photography": {
+        "description": "Learn photography skills and techniques",
+        "schedule": "Fridays, 4:00 PM - 5:30 PM",
+        "max_participants": 10,
+        "participants": []
+    },
+    "Debate Team": {
+        "description": "Develop public speaking and argumentation skills",
+        "schedule": "Mondays, 3:30 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": []
+    },
+    "Science Club": {
+        "description": "Explore scientific concepts and experiments",
+        "schedule": "Tuesdays, 4:30 PM - 6:00 PM",
+        "max_participants": 20,
+        "participants": []
     }
 }
 
-
-@app.get("/")
+@ app.get("/")
 def root():
     return RedirectResponse(url="/static/index.html")
 
 
-@app.get("/activities")
+@ app.get("/activities")
 def get_activities():
     return activities
 
 
-@app.post("/activities/{activity_name}/signup")
+@ app.post("/activities/{activity_name}/signup")
 def signup_for_activity(activity_name: str, email: str):
     """Sign up a student for an activity"""
     # Validate activity exists
@@ -61,6 +135,11 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Get the specific activity
     activity = activities[activity_name]
+
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(
+            status_code=400, detail="Student is already signed up")
 
     # Add student
     activity["participants"].append(email)
